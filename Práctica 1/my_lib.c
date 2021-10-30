@@ -240,11 +240,11 @@ int my_stack_write (struct my_stack *stack, char *filename){
     //Creamos una copia de la pila actual que nos han pasado por parámetro
     struct my_stack *aux = my_stack_init(stack->size);
 
-    //abrimos el fichero, que nos retorna un numero que nos indica si la apertura ha ido bien o no 
-    int fichero = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-
     //declaramos un nodo y lo inicializamos al nodo top
     struct my_stack_node *nodo = stack->top;
+
+    //abrimos el fichero, que nos retorna un numero que nos indica si la apertura ha ido bien o no 
+    int fichero = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 
     //Realizamos un control de errores para saber si la apertura se ha realizado correctamente
 
@@ -258,7 +258,15 @@ int my_stack_write (struct my_stack *stack, char *filename){
         //que feimm????
     //}
 
-    //ecribimos la pila entera dentro del fichero mediante la función write(file descriptor, )
+    //ecribimos la estructura pila dentro del fichero mediante la función write(fichero, dirección del dato a escribir, tamaño del dato a escribir)
+    bytes = write(fichero, &stack->size, sizeof(stack->size));
+
+    //ahora realizaremos un bucle para escribir nodo a nodo dentro del fichero
+    while(nodo != NULL){
+        //escribimos el nodo dentro del fichero y aumentamos el numero de bytes escritos
+        bytes = write(fichero, &nodo, sizeof(nodo));
+        nodo = nodo->next;
+    }
 }
 
 struct my_stack *my_stack_read (char *filename){
