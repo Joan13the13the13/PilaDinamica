@@ -249,14 +249,9 @@ int my_stack_write (struct my_stack *stack, char *filename){
     //Realizamos un control de errores para saber si la apertura se ha realizado correctamente
 
     //si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
-    if(fichero < 0){
+    if(fichero < 0){ //podriem posar (fichero = -1)???
         return bytes;
     }
-
-    //realizamos un bucle con el cual escribiremos el contenido nodo a nodo de la pila dentro del fichero
-    //while(nodo != NULL){
-        //que feimm????
-    //}
 
     //ecribimos la estructura pila dentro del fichero mediante la función write(fichero, dirección del dato a escribir, tamaño del dato a escribir)
     bytes = write(fichero, &stack->size, sizeof(stack->size));
@@ -264,8 +259,21 @@ int my_stack_write (struct my_stack *stack, char *filename){
     //ahora realizaremos un bucle para escribir nodo a nodo dentro del fichero
     while(nodo != NULL){
         //escribimos el nodo dentro del fichero y aumentamos el numero de bytes escritos
-        bytes = write(fichero, &nodo, sizeof(nodo));
+        bytes += write(fichero, &nodo, sizeof(nodo));
         nodo = nodo->next;
+    }
+
+    //Cerramos el fichero y realizamos un contro de errores para saber si se han producido errores
+    int cierre = close(fichero);
+    if(cierre == -1){
+        return -1;
+    }
+
+    //Control de errores a consecuencia de las escrituras
+    if(bytes == -1){
+        return bytes;
+    }else{
+        return bytes / stack->size; //no entenc perquè fa això
     }
 }
 
