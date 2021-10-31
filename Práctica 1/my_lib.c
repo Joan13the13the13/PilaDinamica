@@ -326,6 +326,4 @@ struct my_stack *my_stack_read (char *filename){
     free(data);
     //devolvemos la pila creada
     return stack;
-
-    //Hola que tal estas 
 }
