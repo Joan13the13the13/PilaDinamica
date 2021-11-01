@@ -21,10 +21,10 @@ int my_strcmp(const char *str1, const char *str2)
 {
     //variable entera que retornaremos en caso de que tener cadenas distintas
     int tot = 0;
-    //ídice
+    //índice
     int i = 0;
-    /* Bucle con el qual llevaremos a cabo la comparación de los copdigos 
-    asci de cada caracter */
+    /* Bucle con el qual llevaremos a cabo la comparación de los códigos 
+    ascII de cada caracter */
     while (str1[i] || str2[i])
     {
         tot = ((int)str1[i] - (int)str2[i]);
@@ -197,7 +197,7 @@ int my_stack_len(struct my_stack *stack){
     struct my_stack_node *nodo = stack->top;
 
     //bucle while que recorre la pila nodo por nodo
-    while (nodo->next != NULL){
+    while (nodo != NULL){
         //apuntamos al siguiente nodo
         nodo = nodo->next;
         //aumentamos el contador
@@ -217,10 +217,11 @@ int my_stack_purge(struct my_stack *stack){
     struct my_stack_node *nodo = stack->top;
     
     //bucle que recorre la pila nodo a nodo
-    while (nodo->next != NULL){
+    while (nodo != NULL){
         //sumamos los bytes que ocupan los nodos
-        n += sizeof(nodo);
-        n += sizeof(nodo->data);
+        n += sizeof(struct my_stack_node);
+        //sumamos los bytes que ocupa el tipo de datos guardado en los nodos
+        n += stack->size;
         //liberamos el espacio que ocupa cada nodo
         free(nodo);
         //apuntamoss al siguiente nodo 
@@ -233,12 +234,22 @@ int my_stack_purge(struct my_stack *stack){
     return n;
 }
 
+
+
 int my_stack_write (struct my_stack *stack, char *filename){
     //inicializamos el contador de bytes a -1 por si la apertura del fichero no funcionase correctamente, devolver dicho numero
     int bytes = -1;
 
     //Creamos una copia de la pila actual que nos han pasado por parámetro
-    struct my_stack *aux = stack; // tenemos que inicializarla con my_stack_init o no hace falta???
+    struct my_stack *aux = my_stack_init(stack->size); // tenemos que inicializarla con my_stack_init o no hace falta???
+    struct my_stack_node *nodoStack = stack->top;
+
+
+    //copiar la pila original en la pila auxiliar en orden invers
+    while(nodoStack!=NULL){
+        my_stack_push(aux,nodoStack->data);
+        nodoStack= nodoStack->next;
+    }
 
     //declaramos un nodo y lo inicializamos al nodo top
     struct my_stack_node *nodo = aux->top;
@@ -250,6 +261,7 @@ int my_stack_write (struct my_stack *stack, char *filename){
 
     //si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
     if(fichero < 0){ //podriem posar (fichero = -1)???
+        fprintf(stderr, "Error al abrir el fichero\n");
         return bytes;
     }
 
@@ -259,7 +271,7 @@ int my_stack_write (struct my_stack *stack, char *filename){
     //ahora realizaremos un bucle para escribir nodo a nodo dentro del fichero
     while(nodo != NULL){
         //escribimos el nodo dentro del fichero y aumentamos el numero de bytes escritos
-        bytes += write(fichero, &nodo, sizeof(nodo));
+        bytes += write(fichero, &nodo->data, stack->size);
         nodo = nodo->next;
     }
 
@@ -267,11 +279,13 @@ int my_stack_write (struct my_stack *stack, char *filename){
     int cierre = close(fichero);
 
     if(cierre == -1){
+        fprintf(stderr, "Error al cerrar el fichero\n");
         return -1;
     }
 
     //Control de errores a consecuencia de las escrituras
     if(bytes == -1){
+        fprintf(stderr, "Error al escribir en el archivo\n");
         return bytes;
     }else{
         return bytes / aux->size; //retornam numero d'elements

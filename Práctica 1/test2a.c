@@ -35,6 +35,7 @@ int main() {
        free(data2);
    }
    printf("Longitud de la pila tras extraer todos elementos: %d\n", my_stack_len(s));
+
    printf ("\nIntroducimos de nuevo los nodos en la pila:\n");
    for (int i = 0; i < 2; i++) {
        data1 = malloc(sizeof(struct my_data));
@@ -44,7 +45,8 @@ int main() {
        printf("Valor: %d\t", data1->val);
        printf("Nombre: %s\n", data1->name);
    }
-
+    
    //liberamos todo el espacio ocupado por la pila
    printf ("\nLiberamos %lu bytes del struct my_stack, %lu bytes de los nodos y %lu de los datos. Total: %d\n", sizeof (struct my_stack), sizeof (struct my_stack_node)*2, sizeof(struct my_data)*2, my_stack_purge(s));
+   
 }
