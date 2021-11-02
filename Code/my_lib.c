@@ -10,7 +10,7 @@ Participantes:
 /*
  * Función: my_strlen
  * -----------------------
- *  calculamos el número de caracteres de una palabra 
+ *  Calcula el número de caracteres de una palabra.
  *
  *  str: cadena de caracteres
  *
@@ -33,7 +33,7 @@ size_t my_strlen(const char *str)
 /*
  * Función: my_strcmp
  * -----------------------
- *  comparamos el código ASCII de dos cadenas de caracteres
+ *  Compara el código ASCII de dos cadenas de caracteres.
  *
  *  str1 & str2: cadenas de caracteres
  *
@@ -61,7 +61,7 @@ int my_strcmp(const char *str1, const char *str2)
 /*
  * Función: my_strcpy
  * -----------------------
- *  copiaremos una cadena de caracteres en otra que nos pasarán por parámetro
+ *  Copia una cadena de caracteres en otra que nos pasarán por parámetro.
  *
  *  dest: cadenas de caracteres donde se copiará la otra caden
     src: cadena que contiene los caracteres que copiaremos en dest
@@ -83,18 +83,17 @@ char *my_strcpy(char *dest, const char *src){
     return dest;
 }
 
-/* Método con el cual copiaremos n caracteres de una cadena  
-en otra que nos pasarán por parámetro*/
+
 /*
  * Función: my_strncpy
  * -----------------------
- *  copiaremos n caracteres de una cadena en otra que nos pasarán por parámetro
+ *  Copia n caracteres de una cadena en otra que nos pasarán por parámetro.
  *
  *  dest: cadenas de caracteres donde se copiará la otra caden
  *  src: cadena que contiene los caracteres que copiaremos en dest
  *  n: int que contiene el número de caracteres a copiar
  * 
- *  devuelve: dest(cadena de caracteres)
+ *  Devuelve: dest(cadena de caracteres)
 */
 char *my_strncpy(char *dest, const char *src, size_t n){
     int i = 0;
@@ -110,16 +109,12 @@ char *my_strncpy(char *dest, const char *src, size_t n){
 /*
  * Función: my_strcat.
  * -------------------
- *
- * dest:
+ *  Añade la cadena apuntada por src a la cadena apuntada por dst.
  * 
+ *  dest: es el puntero a la cadena destino
+ *  src: apunta a la cadena a concatenar.
  *
- *
- *
- * src:
- *
- *
- *devuelve: un string 
+ *  Devuelve: el puntero dest
 */
 char *my_strcat(char *dest, const char *src){
     //DECLARACIONES
@@ -139,10 +134,14 @@ char *my_strcat(char *dest, const char *src){
 /*
  * Función: my_strchr
  * -------------------
+ *  Escanea la cadena apuntada por str buscando la primera 
+ *  aparición del carácter c. 
  * 
- *  
+ *  str: apunta a la cadena a escanear.
+ *  c: es el carácter buscado.
  *
- *
+ *  Devuelve: el puntero a la primera aparición del caracter c
+ *  o NULL si el carácter no se ha encontrado
 */
 char *my_strchr(const char *str, int c){
     //contador para saber la posición de la primera 'c'
@@ -173,12 +172,13 @@ char *my_strchr(const char *str, int c){
 /*
  * Función: my_stack_init
  * -----------------------
- *  Inicializamos la pila con el 
+ *  Inicializa la pila, con el primer nodo apuntando a NULL i con el
+ *  campo de datos a NULL también
  *
  *  size: tamaño de los datos que contendrá cada nodo de la pila.
  * 
  *  Devuelve: un puntero con los datos del nodo extraído o
- *            NULL si la pila está vacía. 
+ *  NULL si la pila está vacía. 
 */
 
 struct my_stack *my_stack_init(int size){
@@ -203,7 +203,7 @@ struct my_stack *my_stack_init(int size){
  *
  *  stack: pila que va a recibir el nodo.
  *  data: puntero que contiene los datos del nodo
- *        a introducir.
+ *  a introducir.
  * 
  *
  *  Devuelve: un int que nos indica si se ha realizado
@@ -235,7 +235,7 @@ int my_stack_push(struct my_stack *stack, void *data){
  *  stack: pila de la cual vamos a extraer un nodo.
  * 
  *  Devuelve: un puntero con los datos del nodo extraído o
- *            NULL si la pila está vacía. 
+ *  NULL si la pila está vacía. 
 */
 void *my_stack_pop (struct my_stack *stack){
 
@@ -276,20 +276,13 @@ int my_stack_len(struct my_stack *stack){
 }
 
 /*
-  Este método libera el espacio que se había reservado en la 
-  memoria para la pila. Devuelve a traves de la variable n el 
-  número de bytes.
-  -params: puntero a la pila (struct my_stack *stack).
-*/
-
-/*
  * Función: my_stack_purge
  * -----------------------
- *  
+ *  Libera el espacio que se había reservado en la memoria para la pila
  *
  *  stack: pila de la cual vamos a contabilizar los elementos.
  * 
- *  Devuelve:  
+ *  Devuelve: mediante la variable n, el numero de bytes liberados
 */
 int my_stack_purge(struct my_stack *stack){
     //numero de bytes acumulados
@@ -392,10 +385,10 @@ int my_stack_write (struct my_stack *stack, char *filename){
  * -----------------------
  *  Lee los datos de la pila almacenados en el fichero.
  *
- *  filename: path del fichero de donde queremos leer
+ *  filename: path del fichero de donde queremos leer.
  * 
  *  Devuelve: la pila que hemos creado a partir de
- *  la información del fichero (retorna NULL en caso de error)
+ *  la información del fichero (retorna NULL en caso de error).
 */
 struct my_stack *my_stack_read (char *filename){
     
