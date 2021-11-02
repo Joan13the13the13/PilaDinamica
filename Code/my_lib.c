@@ -7,36 +7,50 @@ Participantes:
 
 #include "my_lib.h"
 
-/* Método que retornará la cantidad de valores 
-no nulos de un string que nos pasen por parámetos */
+/*
+ * Función: my_strlen
+ * -----------------------
+ *  calculamos el número de caracteres de una palabra 
+ *
+ *  str: cadena de caracteres
+ *
+ *  devuelve: un int que nos indica el número de caracteres
+ *
+*/
 size_t my_strlen(const char *str)
 {
     size_t len = 0;
     int i = 0;
 
     while (str[i] != '\0')
-    { // o while (str[i]')
+    { 
         i++;
         len++;
     }
     return len;
 }
 
-/* Método para comparar si dos cadenas de caracteres 
-son iguales, o diferentes */
+/*
+ * Función: my_strcmp
+ * -----------------------
+ *  comparamos el código ASCII de dos cadenas de caracteres
+ *
+ *  str1 & str2: cadenas de caracteres
+ *
+ *  devuelve: un int que nos indica la diferencia del valor
+ *  de las dos cadenas de caracteres
+*/
 int my_strcmp(const char *str1, const char *str2)
 {
     //variable entera que retornaremos en caso de que tener cadenas distintas
     int tot = 0;
-    //índice
     int i = 0;
+    
     /* Bucle con el qual llevaremos a cabo la comparación de los códigos 
     ascII de cada caracter */
-    while (str1[i] || str2[i])
-    {
+    while (str1[i] || str2[i]){
         tot = ((int)str1[i] - (int)str2[i]);
-        if (tot != 0)
-        {
+        if (tot != 0){
             return tot;
         }
         i++;
@@ -44,20 +58,25 @@ int my_strcmp(const char *str1, const char *str2)
     return 0;
 }
 
-/* Método con el cual copiaremos una cadena de caracteres 
-en otra que nos pasarán por parámetro*/
-char *my_strcpy(char *dest, const char *src)
-{
-    //índice
+/*
+ * Función: my_strcpy
+ * -----------------------
+ *  copiaremos una cadena de caracteres en otra que nos pasarán por parámetro
+ *
+ *  dest: cadenas de caracteres donde se copiará la otra caden
+    src: cadena que contiene los caracteres que copiaremos en dest
+ *
+ *  devuelve: dest (cadena de caracteres)
+*/
+char *my_strcpy(char *dest, const char *src){
     int i = 0;
-    /*bucle para el tratamiento de cada caracter de src, de 
-    de forma que en cada iteracción se pone el caracter de src
-    en la misma posición de dest*/
-    while (src[i])
-    {
+
+    while (src[i]){
+
         dest[i] = src[i];
         i++;
     }
+    
     //añadimos el caracter nulo al final de la cadena
     dest[i] = '\0';
 
@@ -66,15 +85,22 @@ char *my_strcpy(char *dest, const char *src)
 
 /* Método con el cual copiaremos n caracteres de una cadena  
 en otra que nos pasarán por parámetro*/
-char *my_strncpy(char *dest, const char *src, size_t n)
-{
-    //índice
+/*
+ * Función: my_strncpy
+ * -----------------------
+ *  copiaremos n caracteres de una cadena en otra que nos pasarán por parámetro
+ *
+ *  dest: cadenas de caracteres donde se copiará la otra caden
+ *  src: cadena que contiene los caracteres que copiaremos en dest
+ *  n: int que contiene el número de caracteres a copiar
+ * 
+ *  devuelve: dest(cadena de caracteres)
+*/
+char *my_strncpy(char *dest, const char *src, size_t n){
     int i = 0;
-    /*bucle mientras el índice sea menor al número de caracteres
-    que se tienen que copiar, de forma que en cada iteracción 
-    se pone el caracter de src en la misma posición de dest*/
-    for (; i < n; i++)
-    {
+
+    for (; i < n; i++){
+
         dest[i] = src[i];
     }
 
@@ -114,15 +140,13 @@ char *my_strcat(char *dest, const char *src){
  * Función: my_strchr
  * -------------------
  * 
- *
+ *  
  *
  *
 */
-char *my_strchr(const char *str, int c)
-{
+char *my_strchr(const char *str, int c){
     //contador para saber la posición de la primera 'c'
     int i = 0;
-    //puntero
     const char *ptr = str;
 
     /*bucle que incrementa el contador de caracteres por cada vez
@@ -145,9 +169,18 @@ char *my_strchr(const char *str, int c)
     return (char *)ptr;
 }
 
-/*
 
+/*
+ * Función: my_stack_init
+ * -----------------------
+ *  Inicializamos la pila con el 
+ *
+ *  size: tamaño de los datos que contendrá cada nodo de la pila.
+ * 
+ *  Devuelve: un puntero con los datos del nodo extraído o
+ *            NULL si la pila está vacía. 
 */
+
 struct my_stack *my_stack_init(int size){
 
     //reservamos espacio en la memoria para la pila
@@ -164,10 +197,17 @@ struct my_stack *my_stack_init(int size){
 /*
  * Función: my_stack_push
  * -----------------------
+ *  Introducimos dentro de la pila un nuevo nodo,
+ *  que se ubicará en en el top(top of pile), es decir
+ *  arriba de todo.
+ *
+ *  stack: pila que va a recibir el nodo.
+ *  data: puntero que contiene los datos del nodo
+ *        a introducir.
  * 
  *
- *
- *
+ *  Devuelve: un int que nos indica si se ha realizado
+ *  correctamente el push (1=EXIT_SUCCES,0=EXT_FAILURE).
  *
 */
 int my_stack_push(struct my_stack *stack, void *data){
@@ -187,8 +227,15 @@ int my_stack_push(struct my_stack *stack, void *data){
 }
 
 /*
-Método que extrae de la pila un nodo, liberando espacio en memoria.
--params: puntero a la pila (struct my_stack *stack).
+ * Función: my_stack_pop
+ * -----------------------
+ *  Extraemos de la pila el nodo que se encuentra en top,
+ *  el cual va a apuntar al nodo anterior al eliminado.
+ *
+ *  stack: pila de la cual vamos a extraer un nodo.
+ * 
+ *  Devuelve: un puntero con los datos del nodo extraído o
+ *            NULL si la pila está vacía. 
 */
 void *my_stack_pop (struct my_stack *stack){
 
@@ -204,8 +251,14 @@ void *my_stack_pop (struct my_stack *stack){
 }
 
 /*
-Método que devuelve el número de nodos que hay en la pila.
--params: puntero a la pila
+ * Función: my_stack_len
+ * -----------------------
+ *  Devuelve un número entero que representa la
+ *  longitud de la pila, es decir, el número de nodos que contiene.
+ *
+ *  stack: pila de la cual vamos a contabilizar los elementos.
+ * 
+ *  Devuelve: el número de elementos dentro de la pila. 
 */
 int my_stack_len(struct my_stack *stack){
     
@@ -227,6 +280,16 @@ int my_stack_len(struct my_stack *stack){
   memoria para la pila. Devuelve a traves de la variable n el 
   número de bytes.
   -params: puntero a la pila (struct my_stack *stack).
+*/
+
+/*
+ * Función: my_stack_purge
+ * -----------------------
+ *  
+ *
+ *  stack: pila de la cual vamos a contabilizar los elementos.
+ * 
+ *  Devuelve:  
 */
 int my_stack_purge(struct my_stack *stack){
     //numero de bytes acumulados
@@ -252,9 +315,15 @@ int my_stack_purge(struct my_stack *stack){
 
 
 /*
-  Método que escribe todo el contenido de la pila en un fichero.
-  -params: pila de la cual obtenemos los datos(struct my_stack *stack), 
-  nombre del fichero(char *filename).
+ * Función: my_stack_write
+ * -----------------------
+ *  Escribe todo el contenido de la pila, en un fichero.
+ *
+ *  stack: pila la cual escribiremos en el fichero.
+ *  filename: path al fichero donde escribiremos la pila.
+ * 
+ *  Devuelve: un entero que nos indica el numero de elementos
+ *  almacenados (retorna -1 en caso de error).
 */
 int my_stack_write (struct my_stack *stack, char *filename){
     //Inicializamos el contador de bytes a -1 por si la apertura del fichero no
@@ -317,12 +386,19 @@ int my_stack_write (struct my_stack *stack, char *filename){
         return bytes / aux->size; 
     }
 }
+
 /*
-  Método que lee los datos de la pila almacenados en el fichero.
-  -params: nombre del fichero (char *filename).
+ * Función: my_stack_read
+ * -----------------------
+ *  Lee los datos de la pila almacenados en el fichero.
+ *
+ *  filename: path del fichero de donde queremos leer
+ * 
+ *  Devuelve: la pila que hemos creado a partir de
+ *  la información del fichero (retorna NULL en caso de error)
 */
 struct my_stack *my_stack_read (char *filename){
-    //DECLARACIONES
+    
     int size;
     struct my_stack *stack;
     void *data; 
