@@ -119,16 +119,16 @@ char *my_strchr(const char *str, int c)
     while ((int)str[i] != c)
     {
         i++;
-        /*si i es mayor a la longitud de str, entonces significa que 
-        la cadena no contiene 'c'y devolvemos NULL*/
+        //si i es mayor a la longitud de str, entonces significa que 
+        //la cadena no contiene 'c'y devolvemos NULL
         if (i > strlen(str))
         {
             return NULL;
         }
     }
 
-    /*devolvemos el puntero del caracter que se encuentra en la
-    posición i*/
+    //devolvemos el puntero del caracter que se encuentra en la
+    //posición i
     ptr = &(str[i]);
     return (char *)ptr;
 }
@@ -189,13 +189,12 @@ void *my_stack_pop (struct my_stack *stack){
 
 /*
 Método que devuelve el número de nodos que hay en la pila.
+-params: puntero a la pila
 */
 int my_stack_len(struct my_stack *stack){
-
-    //contador
+    
     int n = 0;
     struct my_stack_node *nodo = stack->top;
-
     //bucle while que recorre la pila nodo por nodo
     while (nodo != NULL){
         //apuntamos al siguiente nodo
@@ -208,10 +207,10 @@ int my_stack_len(struct my_stack *stack){
 }
 
 /*
-Este método libera el espacio que se había reservado en la 
-memoria para la pila. Devuelve a traves de la variable n el 
-número de bytes.
--params: puntero a la pila (struct my_stack *stack).
+  Este método libera el espacio que se había reservado en la 
+  memoria para la pila. Devuelve a traves de la variable n el 
+  número de bytes.
+  -params: puntero a la pila (struct my_stack *stack).
 */
 int my_stack_purge(struct my_stack *stack){
     //numero de bytes acumulados
@@ -236,33 +235,34 @@ int my_stack_purge(struct my_stack *stack){
 }
 
 
-
+/*
+  Método que escribe todo el contenido de la pila en un fichero.
+  -params: pila de la cual obtenemos los datos(struct my_stack *stack), nombre del fichero(char *filename).
+*/
 int my_stack_write (struct my_stack *stack, char *filename){
-    //inicializamos el contador de bytes a -1 por si la apertura del fichero no funcionase correctamente, devolver dicho numero
+    //Inicializamos el contador de bytes a -1 por si la apertura del fichero no funcionase correctamente, devolver dicho numero
     int bytes = -1;
 
     //Creamos una copia de la pila actual que nos han pasado por parámetro
-    struct my_stack *aux = my_stack_init(stack->size); // tenemos que inicializarla con my_stack_init o no hace falta???
+    struct my_stack *aux = my_stack_init(stack->size); 
     struct my_stack_node *nodoStack = stack->top;
 
-
-    //copiar la pila original en la pila auxiliar en orden inverso
+    //Copiar la pila original en la pila auxiliar en orden inverso
     while(nodoStack!=NULL){
         my_stack_push(aux,nodoStack->data);
         nodoStack= nodoStack->next;
     }
 
-    //declaramos un nodo y lo inicializamos al nodo top
+    //Declaramos un nodo y lo inicializamos al nodo top
     struct my_stack_node *nodo = aux->top;
 
-    //abrimos el fichero, que nos retorna un numero que nos indica si la apertura ha ido bien o no 
+    //Abrimos el fichero, que nos retorna un numero que nos indica si la apertura ha ido bien o no 
     int fichero = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 
     //Realizamos un control de errores para saber si la apertura se ha realizado correctamente
 
-    //si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
-    if(fichero < 0){ //podriem posar (fichero = -1)???
-        fprintf(stderr, "Error al abrir el fichero\n");
+    //Si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
+    if(fichero < 0){
         perror("Error");
         return bytes;
     }
@@ -270,7 +270,7 @@ int my_stack_write (struct my_stack *stack, char *filename){
     //escribimos el size de la pila mediante la función write(fichero, dirección del dato a escribir, tamaño del dato a escribir)
     bytes = write(fichero, &aux->size, sizeof(int));
 
-    //ahora realizaremos un bucle para escribir nodo a nodo dentro del fichero
+    //Realizaremos un bucle para escribir nodo a nodo dentro del fichero
     while(nodo != NULL){
         //escribimos registro a registro (12bytes)
         bytes += write(fichero, nodo->data, stack->size);
@@ -281,26 +281,26 @@ int my_stack_write (struct my_stack *stack, char *filename){
     int cierre = close(fichero);
 
     if(cierre == -1){
-        fprintf(stderr, "Error al cerrar el fichero\n");
         perror("Error");
         return -1;
     }
 
     //Control de errores a consecuencia de las escrituras
     if(bytes == -1){
-        fprintf(stderr, "Error al escribir en el archivo\n");
         perror("Error");
         return bytes;
     }else{
-        return bytes / aux->size; //retornam numero d'elements
+        //Retornamos el numero de elementos
+        return bytes / aux->size; 
     }
 }
-
+/*
+  Método que lee los datos de la pila almacenados en el fichero.
+  -params: nombre del fichero (char *filename).
+*/
 struct my_stack *my_stack_read (char *filename){
-
-    //entero para almacenar el tamaño de la pila a leer
+    //DECLARACIONES
     int size;
-    //declaramos la pila en la cual almacenaremos los datos leeidos
     struct my_stack *stack;
     void *data; 
 
@@ -309,7 +309,6 @@ struct my_stack *my_stack_read (char *filename){
 
     // Control de errores
     if (fichero < 0){
-        fprintf(stderr, "Error al abrir el fichero\n");
         perror("Error");
         return NULL;
     }
@@ -323,34 +322,29 @@ struct my_stack *my_stack_read (char *filename){
     data = malloc(size);
     //si la función malloc nos retorna NULL, la operación no se ha realizado con exito
     if(data == NULL){
-        fprintf(stderr, "No hay espacio en memoria dinámica disponible en este momento.\n");
         perror("Error");
         return data;
-
     }
 
     //Bucle para restaurar los nodos
-    while (read(fichero, data, size) > 0){ //podriamos poner read(fichero, data, size) != 0???
+    while (read(fichero, data, size) > 0){
         //Reservamos memoria para el data
         my_stack_push(stack, data);
         data = malloc(size);
         if (data == NULL){
-            fprintf(stderr, "No hay espacio en memoria dinámica disponible en este momento.\n");
             perror("Error");
             return NULL;
         }
     }
 
-    //cerramos el fichero y realizamos el control de errores
+    //Cerramos el fichero y realizamos el control de errores
     int cierre = close(fichero);
     if(cierre < 0){
-        fprintf(stderr, "Error al cerrar el fichero\n");
         perror("Error");
         return NULL;
     }
 
     //liberamos la memória usada
     free(data);
-    //devolvemos la pila creada
     return stack;
 }
