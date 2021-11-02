@@ -246,7 +246,7 @@ int my_stack_write (struct my_stack *stack, char *filename){
     struct my_stack_node *nodoStack = stack->top;
 
 
-    //copiar la pila original en la pila auxiliar en orden invers
+    //copiar la pila original en la pila auxiliar en orden inverso
     while(nodoStack!=NULL){
         my_stack_push(aux,nodoStack->data);
         nodoStack= nodoStack->next;
@@ -267,13 +267,13 @@ int my_stack_write (struct my_stack *stack, char *filename){
         return bytes;
     }
 
-    //ecribimos el size de la pila mediante la función write(fichero, dirección del dato a escribir, tamaño del dato a escribir)
-    bytes = write(fichero, &aux->size, sizeof(aux->size));
+    //escribimos el size de la pila mediante la función write(fichero, dirección del dato a escribir, tamaño del dato a escribir)
+    bytes = write(fichero, &aux->size, sizeof(int));
 
     //ahora realizaremos un bucle para escribir nodo a nodo dentro del fichero
     while(nodo != NULL){
-        //escribimos el nodo dentro del fichero y aumentamos el numero de bytes escritos
-        bytes += write(fichero, &nodo->data, stack->size);
+        //escribimos registro a registro (12bytes)
+        bytes += write(fichero, nodo->data, stack->size);
         nodo = nodo->next;
     }
 
