@@ -1,3 +1,10 @@
+/*
+Participantes:
+    -Jaume Adrover Fernandez
+    -Marc Cañellas Gomez
+    -Joan Balaguer Llagostera
+*/
+
 #include "my_lib.h"
 
 /* Método que retornará la cantidad de valores 
@@ -75,24 +82,26 @@ char *my_strncpy(char *dest, const char *src, size_t n)
 }
 
 /*
-Método mediante el cual sobreescribimos la cadena de caracteres
-src en la cadena dest, pasadas por parámetro, y lo devolvemos en dest
+ * Función: my_strcat.
+ * -------------------
+ *
+ * dest:
+ * 
+ *
+ *
+ *
+ * src:
+ *
+ *
+ *devuelve: un string 
 */
-char *my_strcat(char *dest, const char *src)
-{
-    //variable que contiene la longitud de la cadena dest
+char *my_strcat(char *dest, const char *src){
+    //DECLARACIONES
     int i = strlen(dest);
-    /*variable que contendrá la posición del caracter de src que
-    queremos copiar en la posición i de dest*/
     int n = 0;
 
-    /*bucle for donde por cada iteracción copiamos el caracter de
-    src correspondiente en la posición dest siguiente. Después incrementamos 
-    el contador de i y de n para apuntar al siguiente caracter a escribir
-    (n), y saber en que posició de src copiarla (n)
-    */
-    for (; n < strlen(src); i++, n++)
-    {
+
+    for (; n < strlen(src); i++, n++){
         dest[i] = src[n];
     }
 
@@ -102,9 +111,12 @@ char *my_strcat(char *dest, const char *src)
 }
 
 /*
-Método que escanea una cadena de caracteres, y devuelve el 
-puntero del primer caracter 'c' encontrado, o NULL si no encuentra
-ninguna 'c'.
+ * Función: my_strchr
+ * -------------------
+ * 
+ *
+ *
+ *
 */
 char *my_strchr(const char *str, int c)
 {
@@ -134,8 +146,7 @@ char *my_strchr(const char *str, int c)
 }
 
 /*
-Método que crea una pila de tamaño size (pasado por parámetro).
--params: entero con el tamaño de la pila(int size).
+
 */
 struct my_stack *my_stack_init(int size){
 
@@ -151,8 +162,13 @@ struct my_stack *my_stack_init(int size){
 }
 
 /*
-Método que inserta un nuevo nodo en la pila.
--params: puntero a la pila (struct my_stack *stack),puntero a los dados (void *data).
+ * Función: my_stack_push
+ * -----------------------
+ * 
+ *
+ *
+ *
+ *
 */
 int my_stack_push(struct my_stack *stack, void *data){
 
@@ -237,10 +253,12 @@ int my_stack_purge(struct my_stack *stack){
 
 /*
   Método que escribe todo el contenido de la pila en un fichero.
-  -params: pila de la cual obtenemos los datos(struct my_stack *stack), nombre del fichero(char *filename).
+  -params: pila de la cual obtenemos los datos(struct my_stack *stack), 
+  nombre del fichero(char *filename).
 */
 int my_stack_write (struct my_stack *stack, char *filename){
-    //Inicializamos el contador de bytes a -1 por si la apertura del fichero no funcionase correctamente, devolver dicho numero
+    //Inicializamos el contador de bytes a -1 por si la apertura del fichero no
+    //funcionase correctamente, devolver dicho numero
     int bytes = -1;
 
     //Creamos una copia de la pila actual que nos han pasado por parámetro
@@ -256,18 +274,22 @@ int my_stack_write (struct my_stack *stack, char *filename){
     //Declaramos un nodo y lo inicializamos al nodo top
     struct my_stack_node *nodo = aux->top;
 
-    //Abrimos el fichero, que nos retorna un numero que nos indica si la apertura ha ido bien o no 
+    //Abrimos el fichero, que nos retorna un numero que nos indica si 
+    //la apertura ha ido bien o no 
     int fichero = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 
-    //Realizamos un control de errores para saber si la apertura se ha realizado correctamente
+    /* Realizamos un control de errores para saber si la apertura 
+    se ha realizado correctamente */
 
-    //Si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
+    //Si el entero retornado de la función open és un 0, significa que 
+    //la operación no se ha realizado correctamente
     if(fichero < 0){
         perror("Error");
         return bytes;
     }
 
-    //escribimos el size de la pila mediante la función write(fichero, dirección del dato a escribir, tamaño del dato a escribir)
+    //escribimos el size de la pila mediante la función write(fichero, 
+    //dirección del dato a escribir, tamaño del dato a escribir)
     bytes = write(fichero, &aux->size, sizeof(int));
 
     //Realizaremos un bucle para escribir nodo a nodo dentro del fichero
@@ -277,7 +299,8 @@ int my_stack_write (struct my_stack *stack, char *filename){
         nodo = nodo->next;
     }
 
-    //Cerramos el fichero y realizamos un contro de errores para saber si se han producido errores
+    //Cerramos el fichero y realizamos un contro de errores para saber 
+    //si se han producido errores
     int cierre = close(fichero);
 
     if(cierre == -1){
@@ -320,7 +343,8 @@ struct my_stack *my_stack_read (char *filename){
     stack = my_stack_init(size);
     //reservamos espacio para el primer dato de la pila
     data = malloc(size);
-    //si la función malloc nos retorna NULL, la operación no se ha realizado con exito
+    //si la función malloc nos retorna NULL, la operación no 
+    //se ha realizado con exito
     if(data == NULL){
         perror("Error");
         return data;
