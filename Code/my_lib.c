@@ -261,7 +261,7 @@ int my_stack_write (struct my_stack *stack, char *filename){
 
     //si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
     if(fichero < 0){ //podriem posar (fichero = -1)???
-        fprintf(stderr, "Error al abrir el fichero\n");
+        printf("Error al abrir el fichero\n");
         return bytes;
     }
 
@@ -279,13 +279,13 @@ int my_stack_write (struct my_stack *stack, char *filename){
     int cierre = close(fichero);
 
     if(cierre == -1){
-        fprintf(stderr, "Error al cerrar el fichero\n");
+        printf("Error al cerrar el fichero\n");
         return -1;
     }
 
     //Control de errores a consecuencia de las escrituras
     if(bytes == -1){
-        fprintf(stderr, "Error al escribir en el archivo\n");
+        printf("Error al escribir en el archivo\n");
         return bytes;
     }else{
         return bytes / aux->size; //retornam numero d'elements
@@ -305,6 +305,7 @@ struct my_stack *my_stack_read (char *filename){
 
     // Control de errores
     if (fichero < 0){
+        printf("Error al abrir el fichero\n");
         return NULL;
     }
 
@@ -317,7 +318,9 @@ struct my_stack *my_stack_read (char *filename){
     data = malloc(size);
     //si la función malloc nos retorna NULL, la operación no se ha realizado con exito
     if(data == NULL){
+        printf("No hay espacio en memoria dinámica disponible en este momento.\n");
         return data;
+
     }
 
     //Bucle para restaurar los nodos
@@ -326,6 +329,7 @@ struct my_stack *my_stack_read (char *filename){
         my_stack_push(stack, data);
         data = malloc(size);
         if (data == NULL){
+            printf("No hay espacio en memoria dinámica disponible en este momento.\n");
             return NULL;
         }
     }
@@ -333,6 +337,7 @@ struct my_stack *my_stack_read (char *filename){
     //cerramos el fichero y realizamos el control de errores
     int cierre = close(fichero);
     if(cierre < 0){
+        printf("Error al cerrar el fichero\n");
         return NULL;
     }
 
