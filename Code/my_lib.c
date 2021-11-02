@@ -288,7 +288,7 @@ int my_stack_write (struct my_stack *stack, char *filename){
 
     //Control de errores a consecuencia de las escrituras
     if(bytes == -1){
-        fprintf(strerror, "Error al escribir en el archivo\n");
+        fprintf(stderr, "Error al escribir en el archivo\n");
         perror("Error");
         return bytes;
     }else{
