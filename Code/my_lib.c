@@ -135,7 +135,7 @@ char *my_strchr(const char *str, int c)
 
 /*
 Método que crea una pila de tamaño size (pasado por parámetro).
-params: entero con el tamaño de la pila(int size).
+-params: entero con el tamaño de la pila(int size).
 */
 struct my_stack *my_stack_init(int size){
 
@@ -151,8 +151,8 @@ struct my_stack *my_stack_init(int size){
 }
 
 /*
--Método que inserta un nuevo nodo en la pila.
-params: puntero a la pila (struct my_stack *stack),puntero a los dados (void *data).
+Método que inserta un nuevo nodo en la pila.
+-params: puntero a la pila (struct my_stack *stack),puntero a los dados (void *data).
 */
 int my_stack_push(struct my_stack *stack, void *data){
 
@@ -163,7 +163,6 @@ int my_stack_push(struct my_stack *stack, void *data){
         //cambiamos atributos del nuevo nodo
         nodo->data=data;
         nodo->next=stack->top;
-        //el top de la pila será el nuevo nodo
         stack->top=nodo;
 
         return 0;//EXIT_SUCCESS
@@ -172,7 +171,8 @@ int my_stack_push(struct my_stack *stack, void *data){
 }
 
 /*
-
+Método que extrae de la pila un nodo, liberando espacio en memoria.
+-params: puntero a la pila (struct my_stack *stack).
 */
 void *my_stack_pop (struct my_stack *stack){
 
@@ -209,7 +209,9 @@ int my_stack_len(struct my_stack *stack){
 
 /*
 Este método libera el espacio que se había reservado en la 
-memoria para la pila
+memoria para la pila. Devuelve a traves de la variable n el 
+número de bytes.
+-params: puntero a la pila (struct my_stack *stack).
 */
 int my_stack_purge(struct my_stack *stack){
     //numero de bytes acumulados
@@ -224,7 +226,6 @@ int my_stack_purge(struct my_stack *stack){
         n += stack->size;
         //liberamos el espacio que ocupa cada nodo
         free(nodo);
-        //apuntamoss al siguiente nodo 
         nodo = nodo->next;
     }
 
@@ -261,7 +262,8 @@ int my_stack_write (struct my_stack *stack, char *filename){
 
     //si el entero retornado de la función open és un 0, significa que la operación no se ha realizado correctamente
     if(fichero < 0){ //podriem posar (fichero = -1)???
-        printf("Error al abrir el fichero\n");
+        fprintf(stderr, "Error al abrir el fichero\n");
+        perror("Error");
         return bytes;
     }
 
@@ -279,13 +281,15 @@ int my_stack_write (struct my_stack *stack, char *filename){
     int cierre = close(fichero);
 
     if(cierre == -1){
-        printf("Error al cerrar el fichero\n");
+        fprintf(stderr, "Error al cerrar el fichero\n");
+        perror("Error");
         return -1;
     }
 
     //Control de errores a consecuencia de las escrituras
     if(bytes == -1){
-        printf("Error al escribir en el archivo\n");
+        fprintf(strerror, "Error al escribir en el archivo\n");
+        perror("Error");
         return bytes;
     }else{
         return bytes / aux->size; //retornam numero d'elements
@@ -305,7 +309,8 @@ struct my_stack *my_stack_read (char *filename){
 
     // Control de errores
     if (fichero < 0){
-        printf("Error al abrir el fichero\n");
+        fprintf(stderr, "Error al abrir el fichero\n");
+        perror("Error");
         return NULL;
     }
 
@@ -318,7 +323,8 @@ struct my_stack *my_stack_read (char *filename){
     data = malloc(size);
     //si la función malloc nos retorna NULL, la operación no se ha realizado con exito
     if(data == NULL){
-        printf("No hay espacio en memoria dinámica disponible en este momento.\n");
+        fprintf(stderr, "No hay espacio en memoria dinámica disponible en este momento.\n");
+        perror("Error");
         return data;
 
     }
@@ -329,7 +335,8 @@ struct my_stack *my_stack_read (char *filename){
         my_stack_push(stack, data);
         data = malloc(size);
         if (data == NULL){
-            printf("No hay espacio en memoria dinámica disponible en este momento.\n");
+            fprintf(stderr, "No hay espacio en memoria dinámica disponible en este momento.\n");
+            perror("Error");
             return NULL;
         }
     }
@@ -337,7 +344,8 @@ struct my_stack *my_stack_read (char *filename){
     //cerramos el fichero y realizamos el control de errores
     int cierre = close(fichero);
     if(cierre < 0){
-        printf("Error al cerrar el fichero\n");
+        fprintf(stderr, "Error al cerrar el fichero\n");
+        perror("Error");
         return NULL;
     }
 
