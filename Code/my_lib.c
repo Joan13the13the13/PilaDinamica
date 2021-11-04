@@ -17,8 +17,7 @@ Participantes:
  *  devuelve: un int que nos indica el número de caracteres
  *
 */
-size_t my_strlen(const char *str)
-{
+size_t my_strlen(const char *str){
     size_t len = 0;
     int i = 0;
 
@@ -40,8 +39,7 @@ size_t my_strlen(const char *str)
  *  Devuelve: un int que nos indica la diferencia del valor
  *  de las dos cadenas de caracteres
 */
-int my_strcmp(const char *str1, const char *str2)
-{
+int my_strcmp(const char *str1, const char *str2){
     //variable entera que retornaremos en caso de que tener cadenas distintas
     int tot = 0;
     int i = 0;
