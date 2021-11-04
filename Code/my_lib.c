@@ -37,7 +37,7 @@ size_t my_strlen(const char *str)
  *
  *  str1 & str2: cadenas de caracteres
  *
- *  devuelve: un int que nos indica la diferencia del valor
+ *  Devuelve: un int que nos indica la diferencia del valor
  *  de las dos cadenas de caracteres
 */
 int my_strcmp(const char *str1, const char *str2)
@@ -66,7 +66,7 @@ int my_strcmp(const char *str1, const char *str2)
  *  dest: cadenas de caracteres donde se copiará la otra caden
     src: cadena que contiene los caracteres que copiaremos en dest
  *
- *  devuelve: dest (cadena de caracteres)
+ *  Devuelve: dest (cadena de caracteres)
 */
 char *my_strcpy(char *dest, const char *src){
     int i = 0;
